@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+sqlalchemy
+alembic
+psycopg2-binary
+redis
+rq
+pydantic
+pydantic-settings
+python-dotenv
+opencv-python
+ultralytics
+ollama
+python-multipart
