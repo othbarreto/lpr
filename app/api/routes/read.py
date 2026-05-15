@@ -10,14 +10,14 @@ router = APIRouter(prefix="/reads", tags=["reads"])
 
 @router.post("/", response_model=OCRReadingResponse)
 def create_read(payload: OCRReadingCreate, db=Depends(get_db)):
-    frame = save_frame(payload.frame, "frames")
+    frame = save_frame(payload.frame, "vehicles")
     frame_plate = save_frame(payload.frame_plate, "plates")
 
     cursor = db.cursor(cursor_factory=RealDictCursor)
     cursor.execute("""
-        INSERT INTO ocr_readings (camera_id, frame, frame_plate, plate, status)
-        VALUES (%s, %s, %s, %s, %s) RETURNING *
-    """, (payload.camera_id, frame, frame_plate, payload.plate, payload.status))
+        INSERT INTO ocr_readings (camera_id, frame, frame_plate)
+        VALUES (%s, %s, %s) RETURNING *
+    """, (payload.camera_id, frame, frame_plate))
 
     read = cursor.fetchone()
     db.commit()
